@@ -1,72 +1,46 @@
 #include "main.h"
 /**
-* int_printf = a function similar to printf in c.
-* @*format = its the format string.
-* @... = its the variadic or variable arguments passed.
-* Return count : returning the count of the string format. 
+ * _printf - printf function for printing.
+ * @format: format string that we should manipulate.
+ *
+ * Return: int count of the format string (its lenght).
 */
 int _printf(const char *format, ...)
 {
-	const char* p = format;
-	int count = 0;
-	char c;
-	int d;
-	int i;
-	va_list list;
-	va_start(list,format);
-
-while (*p != '\0')
+va_list args;
+va_start(args, format);
+int count = 0;
+for (char c, *p = format; *p; ++p)
 {
-	if (*p == '%')
-	{
-	p++;
-	count++;
-	switch (*p)
-	{
-	case 'c':
-	{
-		c = (char)va_arg(list,int);
-		count++;
-		putchar(c);
-		break;
-	}
-	case 's':
-	{	const char *str = va_arg(list, const char *);
-	while (*str != '\0') {
-	putchar(*str);
-	str++;
-	count++;                    
-		}
-		break;
-		}
-		case '%':
-		{
-		putchar('%');
-		count++;
-			break;
-		}
-		case 'd':
-		{
-		d = va_arg(list,int);
-		count++;
-		putchar(d + '0');
-		break;
-		}
-		case 'i':
-		{
-		i = va_arg(list,int);
-		count++;
-		putchar(i + '0');
-		break;
-			default:
-		break;
-		}
-	}
-	else{
-		putchar(*p);
-		count++;
-	}
-	p++;
-	}
-va_end(list);
-return count;
+if (*p == '%')
+{
+++p;
+switch (*p)
+{
+case 'c':
+c = va_arg(args, int);
+putchar(c);
+++count;
+break;
+case 's':
+for (const char *str = va_arg(args, const char*); *str; ++str)
+{
+putchar(*str);
+++count;
+}
+break;
+case '%':
+putchar('%');
+++count;
+break;
+}
+}
+else
+{
+putchar(*p);
+++count;
+}
+}
+va_end(args);
+return (count);
+}
