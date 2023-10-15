@@ -2,13 +2,13 @@
 
 int _printf(const char *format, ...)
 {
-va_list list;
-va_start(list,format);
-const char* p = format;
-int count = 0;
 char c;
 int d;
 int i;
+int count =0;
+const char* p = format;
+va_list list;
+va_start(list,format);
 
 while (*p != '\0')
 {
