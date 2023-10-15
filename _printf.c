@@ -1,46 +1,61 @@
 #include "main.h"
 /**
- * _printf - printf function for printing.
- * @format: format string that we should manipulate.
- *
- * Return: int count of the format string (its lenght).
+ * _printf - printing and handling formats.
+ * @format : format string that we should manipulate.
+ * 
+ * Return : the count of the format string (its lenght).
 */
+
 int _printf(const char *format, ...)
 {
-va_list args;
-va_start(args, format);
+char c;
 int count = 0;
-for (char c, *p = format; *p; ++p)
+const char *p = format;
+va_list list;
+va_start(list,format);
+while (*p != '\0')
 {
-if (*p == '%')
-{
-++p;
-switch (*p)
-{
-case 'c':
-c = va_arg(args, int);
-putchar(c);
-++count;
-break;
-case 's':
-for (const char *str = va_arg(args, const char*); *str; ++str)
-{
-putchar(*str);
-++count;
+    if (*p == '%')
+    {
+        p++;
+        count++;
+        switch (*p)
+        {
+        case 'c':
+        {
+            c = (char)va_arg(list,int);
+            _putchar(c);
+            break;
+        }
+            case 's':
+            {
+            const char *str = va_arg(list,const char*);
+            while (*str != '\0')
+            {
+                _putchar(*str);
+                str++;
+                count++;
+            }
+            break;
+            }
+            case '%':
+            {
+                _putchar('%');
+                count++;
+            }
+        
+            
+            
+        
+        default:
+            break;
+        }
+    }
+           else{
+            _putchar(*p);
+            count++;
+        }
+        p++;
 }
-break;
-case '%':
-putchar('%');
-++count;
-break;
-}
-}
-else
-{
-putchar(*p);
-++count;
-}
-}
-va_end(args);
-return (count);
+        return (count);
 }
